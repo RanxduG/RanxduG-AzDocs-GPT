@@ -1,0 +1,108 @@
+.auth-layout {
+  display: flex;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.auth-hero {
+  display: none;
+  background-color: #0078d4;
+  color: white;
+  padding: 40px;
+  flex: 1;
+  background-image: linear-gradient(135deg, #0078d4 0%, #004578 100%);
+  position: relative;
+}
+
+.hero-content {
+  max-width: 500px;
+  margin: 0 auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero-logo {
+  margin-bottom: 24px;
+}
+
+.auth-hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.auth-hero p {
+  font-size: 1.1rem;
+  margin-bottom: 40px;
+  opacity: 0.9;
+  line-height: 1.6;
+}
+
+.hero-features {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.feature svg {
+  min-width: 20px;
+}
+
+.feature span {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+.auth-form-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #f0f2f5;
+}
+
+/* For responsive design */
+@media (min-width: 992px) {
+  .auth-hero {
+    display: flex;
+    flex: 1;
+  }
+  
+  .auth-form-container {
+    flex: 1;
+  }
+}
+
+/* Visual decoration elements */
+.auth-hero::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.auth-hero::after {
+  content: '';
+  position: absolute;
+  top: 100px;
+  right: 50px;
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}

@@ -1,0 +1,59 @@
+/* GroundingReferences.css */
+.grounding-references {
+  margin-top: 8px;
+  background-color: #f9fbfd;
+  border-radius: 8px;
+  padding: 12px;
+  border: 1px solid #e0e7ef;
+  font-size: 14px;
+}
+
+.references-title {
+  margin: 0 0 10px;
+  font-size: 14px;
+  color: #555;
+  font-weight: 500;
+}
+
+.references-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.reference-item {
+  padding: 8px;
+  border-radius: 6px;
+  background-color: #ffffff;
+  border-left: 3px solid var(--accent-color);
+}
+
+.reference-header {
+  margin-bottom: 5px;
+}
+
+.reference-doc-name {
+  font-weight: 600;
+  color: var(--accent-color);
+  font-size: 13px;
+}
+
+.reference-content {
+  font-size: 13px;
+  line-height: 1.4;
+  color: #333;
+}
+
+@media (max-width: 768px) {
+  .grounding-references {
+    padding: 10px;
+  }
+  
+  .reference-item {
+    padding: 6px;
+  }
+  
+  .reference-content {
+    font-size: 12px;
+  }
+}
