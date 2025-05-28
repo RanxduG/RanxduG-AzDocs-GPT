@@ -65,7 +65,6 @@ useEffect(() => {
           {Array.isArray(chats) && chats.length > 0 ? (
             chats.map(chat => (
               <div key={chat.id} className={`chat-item ${activeChat === chat.id ? 'active' : ''}`} onClick={() => handleChatSelect(chat.id)}>
-                <span className="chat-icon">...</span>
                 <span className="chat-title">{chat.title}</span>
               </div>
             ))
