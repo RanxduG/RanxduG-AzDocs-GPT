@@ -4,7 +4,9 @@ import './Login.css';
 const Login = () => {
   const handleAzureLogin = () => {
     // Redirect to Flask backend's Azure AD login route
-    window.location.href = 'http://localhost:5000/login'; // update to your backend URL if different
+    console.log('Redirecting to Azure AD login...');
+    window.location.href = 'https://azdocsgpt-b4bqhrg2gjh2byhc.southeastasia-01.azurewebsites.net/login'; // update to your backend URL if different
+    // window.location.href = 'http://localhost:5000/login'; // update to your backend URL if different
   };
 
   return (

@@ -2,6 +2,8 @@ import React from 'react';
 import './GroundingReferences.css';
 
 const GroundingReferences = ({ references }) => {
+  console.log('GroundingReferences component rendered with references:', references);
+
   return (
     <div className="grounding-references">
       <h4 className="references-title">References</h4>

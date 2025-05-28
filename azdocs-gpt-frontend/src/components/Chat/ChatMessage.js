@@ -4,6 +4,11 @@ import GroundingReferences from './GroundingReferences';
 
 // Function to convert markdown to HTML (very simplified version)
 const convertMarkdownToHtml = (text) => {
+  // Add null/undefined check
+  if (!text || typeof text !== 'string') {
+    return '';
+  }
+  
   // Handle code blocks with ```
   let html = text.replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
   
@@ -37,7 +42,12 @@ const ChatMessage = ({ message }) => {
     setReferencesExpanded(!referencesExpanded);
   };
   
-  const isBot = message.sender === 'bot';
+  // Handle both 'sender' and 'role' properties
+  const sender = message.sender || message.role;
+  const isBot = sender === 'bot' || sender === 'assistant';
+  
+  // Handle different text property names
+  const messageText = message.text || message.content || '';
   
   return (
     <div className={`message-container ${isBot ? 'bot-message' : 'user-message'}`}>
@@ -60,7 +70,9 @@ const ChatMessage = ({ message }) => {
       
       <div 
         className={`message-content ${message.isError ? 'error-message' : ''}`}
-        dangerouslySetInnerHTML={{ __html: isBot ? convertMarkdownToHtml(message.text) : message.text }}
+        dangerouslySetInnerHTML={{ 
+          __html: isBot ? convertMarkdownToHtml(messageText) : messageText 
+        }}
       />
       
       {isBot && message.references && message.references.length > 0 && (

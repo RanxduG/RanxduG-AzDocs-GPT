@@ -53,7 +53,7 @@ const Chat = ({ chatId }) => {
     
     try {
       // Call API service
-      const response = await sendMessage(message);
+      const response = await sendMessage(chatId, message);
       
       // Add bot message to chat
       const botMessage = {

@@ -5,13 +5,19 @@
   height: 100vh;
   width: 100%;
   overflow: hidden;
+  gap: 100px
 }
 
 .main-content {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  flex: 1;
-  overflow: hidden;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 150px;
+  margin-left: 150px;
+  padding-right: 20px;
 }
 
 .chat-container {
