@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/UI/Header';
-import Sidebar from '../components/UI/Sidebar';
 import './CSS/UploadPage.css';
 
 const UploadPage = () => {
@@ -162,153 +161,145 @@ const UploadPage = () => {
   };
 
   return (
-    <div className="upload-page">
-      <Sidebar 
-        onSelectChat={() => {}}
-        onNewChat={() => {}}
-        activeChat={null}
-        user={user}
-      />
-      <div className="main-content">
-        <Header user={user} />
-        <div className="upload-container">
-          <div className="upload-header">
-            <h2>Document Upload</h2>
-            <p>Upload PDF documents to the Azure knowledge base with appropriate access levels</p>
-          </div>
+    <div className="upload-page-fullwidth">
+      <Header />
+      <div className="upload-container">
+        <div className="upload-header">
+          <h2>Document Upload</h2>
+          <p>Upload PDF documents to the Azure knowledge base with appropriate access levels</p>
+        </div>
 
-          {/* Upload Area */}
-          <div 
-            className={`upload-dropzone ${dragActive ? 'drag-active' : ''}`}
-            onDragEnter={handleDrag}
-            onDragLeave={handleDrag}
-            onDragOver={handleDrag}
-            onDrop={handleDrop}
-            onClick={() => fileInputRef.current?.click()}
-          >
-            <div className="upload-icon">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
-              </svg>
+        {/* Upload Area */}
+        <div 
+          className={`upload-dropzone ${dragActive ? 'drag-active' : ''}`}
+          onDragEnter={handleDrag}
+          onDragLeave={handleDrag}
+          onDragOver={handleDrag}
+          onDrop={handleDrop}
+          onClick={() => fileInputRef.current?.click()}
+        >
+          <div className="upload-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
+            </svg>
+          </div>
+          <h3>Drop PDF files here or click to browse</h3>
+          <p>Only PDF files are supported</p>
+          <input
+            ref={fileInputRef}
+            type="file"
+            multiple
+            accept=".pdf"
+            onChange={handleFileSelect}
+            style={{ display: 'none' }}
+          />
+        </div>
+
+        {/* Selected Files */}
+        {selectedFiles.length > 0 && (
+          <div className="selected-files">
+            <div className="files-header">
+              <h3>Selected Files ({selectedFiles.length})</h3>
+              <button 
+                className="btn-secondary"
+                onClick={clearAll}
+                disabled={uploading}
+              >
+                Clear All
+              </button>
             </div>
-            <h3>Drop PDF files here or click to browse</h3>
-            <p>Only PDF files are supported</p>
-            <input
-              ref={fileInputRef}
-              type="file"
-              multiple
-              accept=".pdf"
-              onChange={handleFileSelect}
-              style={{ display: 'none' }}
-            />
-          </div>
-
-          {/* Selected Files */}
-          {selectedFiles.length > 0 && (
-            <div className="selected-files">
-              <div className="files-header">
-                <h3>Selected Files ({selectedFiles.length})</h3>
-                <button 
-                  className="btn-secondary"
-                  onClick={clearAll}
-                  disabled={uploading}
-                >
-                  Clear All
-                </button>
-              </div>
-              
-              <div className="files-list">
-                {selectedFiles.map(fileItem => (
-                  <div key={fileItem.id} className="file-item">
-                    <div className="file-info">
-                      <div className="file-details">
-                        <span className="file-name">{fileItem.name}</span>
-                        <span className="file-size">{formatFileSize(fileItem.size)}</span>
-                      </div>
-                      
-                      <div className="access-level-selector">
-                        <label htmlFor={`access-${fileItem.id}`}>Access Level:</label>
-                        <select
-                          id={`access-${fileItem.id}`}
-                          value={fileItem.accessLevel}
-                          onChange={(e) => updateFileAccessLevel(fileItem.id, e.target.value)}
-                          disabled={uploading}
-                        >
-                          {accessLevels.map(level => (
-                            <option key={level.value} value={level.value}>
-                              {level.label}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
+            
+            <div className="files-list">
+              {selectedFiles.map(fileItem => (
+                <div key={fileItem.id} className="file-item">
+                  <div className="file-info">
+                    <div className="file-details">
+                      <span className="file-name">{fileItem.name}</span>
+                      <span className="file-size">{formatFileSize(fileItem.size)}</span>
                     </div>
                     
-                    {uploadProgress[fileItem.id] !== undefined && (
-                      <div className="upload-progress">
-                        <div 
-                          className="progress-bar"
-                          style={{ width: `${uploadProgress[fileItem.id]}%` }}
-                        ></div>
-                      </div>
-                    )}
-                    
-                    <button
-                      className="btn-remove"
-                      onClick={() => removeFile(fileItem.id)}
-                      disabled={uploading}
-                    >
-                      ×
-                    </button>
-                  </div>
-                ))}
-              </div>
-              
-              <div className="upload-actions">
-                <button
-                  className="btn-primary"
-                  onClick={uploadFiles}
-                  disabled={uploading || selectedFiles.length === 0}
-                >
-                  {uploading ? 'Uploading...' : `Upload ${selectedFiles.length} File${selectedFiles.length > 1 ? 's' : ''}`}
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* Upload Results */}
-          {uploadResults.length > 0 && (
-            <div className="upload-results">
-              <h3>Upload Results</h3>
-              <div className="results-list">
-                {uploadResults.map((result, index) => (
-                  <div key={index} className={`result-item ${result.status}`}>
-                    <div className="result-icon">
-                      {result.status === 'success' ? '✓' : '✗'}
-                    </div>
-                    <div className="result-details">
-                      <span className="result-filename">{result.fileName}</span>
-                      <span className="result-message">{result.message}</span>
+                    <div className="access-level-selector">
+                      <label htmlFor={`access-${fileItem.id}`}>Access Level:</label>
+                      <select
+                        id={`access-${fileItem.id}`}
+                        value={fileItem.accessLevel}
+                        onChange={(e) => updateFileAccessLevel(fileItem.id, e.target.value)}
+                        disabled={uploading}
+                      >
+                        {accessLevels.map(level => (
+                          <option key={level.value} value={level.value}>
+                            {level.label}
+                          </option>
+                        ))}
+                      </select>
                     </div>
                   </div>
-                ))}
-              </div>
+                  
+                  {uploadProgress[fileItem.id] !== undefined && (
+                    <div className="upload-progress">
+                      <div 
+                        className="progress-bar"
+                        style={{ width: `${uploadProgress[fileItem.id]}%` }}
+                      ></div>
+                    </div>
+                  )}
+                  
+                  <button
+                    className="btn-remove"
+                    onClick={() => removeFile(fileItem.id)}
+                    disabled={uploading}
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
             </div>
-          )}
+            
+            <div className="upload-actions">
+              <button
+                className="btn-primary"
+                onClick={uploadFiles}
+                disabled={uploading || selectedFiles.length === 0}
+              >
+                {uploading ? 'Uploading...' : `Upload ${selectedFiles.length} File${selectedFiles.length > 1 ? 's' : ''}`}
+              </button>
+            </div>
+          </div>
+        )}
 
-          {/* Access Level Information */}
-          <div className="access-info">
-            <h3>Access Level Guide</h3>
-            <div className="access-levels">
-              {accessLevels.map(level => (
-                <div key={level.value} className="access-level-item">
-                  <span className="level-badge">Level {level.value}</span>
-                  <div className="level-info">
-                    <span className="level-name">{level.label.split(' - ')[1]}</span>
-                    <span className="level-description">{level.description}</span>
+        {/* Upload Results */}
+        {uploadResults.length > 0 && (
+          <div className="upload-results">
+            <h3>Upload Results</h3>
+            <div className="results-list">
+              {uploadResults.map((result, index) => (
+                <div key={index} className={`result-item ${result.status}`}>
+                  <div className="result-icon">
+                    {result.status === 'success' ? '✓' : '✗'}
+                  </div>
+                  <div className="result-details">
+                    <span className="result-filename">{result.fileName}</span>
+                    <span className="result-message">{result.message}</span>
                   </div>
                 </div>
               ))}
             </div>
+          </div>
+        )}
+
+        {/* Access Level Information */}
+        <div className="access-info">
+          <h3>Access Level Guide</h3>
+          <div className="access-levels">
+            {accessLevels.map(level => (
+              <div key={level.value} className="access-level-item">
+                <span className="level-badge">Level {level.value}</span>
+                <div className="level-info">
+                  <span className="level-name">{level.label.split(' - ')[1]}</span>
+                  <span className="level-description">{level.description}</span>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
